@@ -4,6 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Evernull Tools</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&display=swap" rel="stylesheet">
+
+
     <style>
         :root {
             --bg: #090b10;
@@ -24,28 +30,31 @@
             box-sizing: border-box;
         }
 
-        html {
-            scroll-behavior: smooth;
-        }
-
         body {
             margin: 0;
-            background:
-                radial-gradient(circle at 18% 12%, rgba(255,122,26,0.14), transparent 28rem),
-                radial-gradient(circle at 82% 18%, rgba(114,242,255,0.10), transparent 30rem),
-                linear-gradient(180deg, #0b0e15 0%, #080a0f 100%);
+            min-height: 100vh;
+            background: radial-gradient(circle at 18% 52%, rgba(255,122,26,0.08), transparent 28rem), radial-gradient(circle at 82% 18%, rgba(114,242,255,0.10), transparent 30rem), linear-gradient(180deg, #00081b 0%, #080a0f 100%);
             color: var(--text);
             font-family: Arial, Helvetica, sans-serif;
             line-height: 1.6;
+            overflow-x: hidden;
         }
 
         a {
             color: inherit;
         }
 
-        .page {
+        .page-shell {
             width: min(1120px, calc(100% - 40px));
             margin: 0 auto;
+        }
+
+        .brand-wordmark {
+            font-family: "Cinzel", serif;
+            font-size: 32px;
+            font-weight: 500;
+            letter-spacing: 0.06em;
+            color: #f3d18a;
         }
 
         .nav {
@@ -53,48 +62,98 @@
             align-items: center;
             justify-content: space-between;
             padding: 26px 0;
+            position: relative;
+            z-index: 10;
         }
 
         .brand {
             display: flex;
             align-items: center;
-            gap: 12px;
-            font-weight: 800;
-            letter-spacing: 0.02em;
+            gap: 14px;
+            cursor: pointer;
         }
 
         .brand-mark {
-            width: 34px;
-            height: 34px;
-            border-radius: 10px;
-            background:
-                linear-gradient(135deg, var(--orange), #ffd18a);
-            box-shadow: 0 0 32px rgba(255,122,26,0.38);
-            position: relative;
-        }
-
-        .brand-mark::after {
-            content: "";
-            position: absolute;
-            inset: 9px;
-            border: 2px solid #090b10;
-            border-radius: 999px;
-            transform: rotate(-28deg) scaleX(1.4);
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            object-fit: contain;
+            display: block;
+            flex-shrink: 0;
         }
 
         .nav-links {
             display: flex;
-            gap: 18px;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .nav-button {
+            border: 1px solid transparent;
+            background: transparent;
             color: var(--muted);
+            font: inherit;
             font-size: 14px;
+            padding: 9px 12px;
+            border-radius: 999px;
+            cursor: pointer;
         }
 
-        .nav-links a {
-            text-decoration: none;
+            .nav-button:hover {
+                color: var(--text);
+                background: rgba(255,255,255,0.04);
+            }
+
+            .nav-button.active {
+                color: #111;
+                background: var(--orange);
+                font-weight: 800;
+            }
+
+        .stage {
+            position: relative;
+            min-height: 680px;
+            padding-bottom: 72px;
         }
 
-        .nav-links a:hover {
-            color: var(--text);
+        .view {
+            display: none;
+        }
+
+            .view.active {
+                display: block;
+            }
+
+            .view.from-right {
+                animation: fromRight 320ms cubic-bezier(.16, .84, .28, 1) both;
+            }
+
+            .view.from-left {
+                animation: fromLeft 320ms cubic-bezier(.16, .84, .28, 1) both;
+            }
+
+        @keyframes fromRight {
+            from {
+                opacity: 0;
+                transform: translateX(44px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes fromLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-44px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
         }
 
         .hero {
@@ -103,12 +162,32 @@
             gap: 44px;
             align-items: center;
             padding: 78px 0 92px;
+        }
+
+            .hero.hero-single {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+                .hero.hero-single .hero-copy {
+                    max-width: 860px;
+                    margin: 0 auto;
+                }
+
+                .hero.hero-single .hero-actions {
+                    justify-content: center;
+                }
+
+        .page-header {
+            padding: 70px 0 42px;
             border-bottom: 1px solid var(--line);
+            margin-bottom: 42px;
         }
 
         .eyebrow {
+            font-family: "Cinzel", serif;
             color: var(--orange);
-            font-size: 13px;
+            font-size: 20px;
             font-weight: 800;
             letter-spacing: 0.12em;
             text-transform: uppercase;
@@ -162,23 +241,22 @@
             border: 1px solid var(--line);
             background: var(--panel);
             color: var(--text);
+            cursor: pointer;
         }
 
-        .button.primary {
-            background: linear-gradient(135deg, var(--orange), #ffb15f);
-            color: #111;
-            border: 0;
-            box-shadow: 0 14px 40px rgba(255,122,26,0.24);
-        }
+            .button.primary {
+                background: linear-gradient(135deg, var(--orange), #ffb15f);
+                color: #111;
+                border: 0;
+                box-shadow: 0 14px 40px rgba(255,122,26,0.24);
+            }
 
-        .button:hover {
-            transform: translateY(-1px);
-        }
+            .button:hover {
+                transform: translateY(-1px);
+            }
 
         .visual-card {
-            background:
-                linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02)),
-                var(--panel);
+            background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02)), var(--panel);
             border: 1px solid var(--line);
             border-radius: 28px;
             padding: 26px;
@@ -187,15 +265,15 @@
             position: relative;
         }
 
-        .visual-card::before {
-            content: "";
-            position: absolute;
-            width: 420px;
-            height: 420px;
-            right: -190px;
-            top: -180px;
-            background: radial-gradient(circle, rgba(255,122,26,0.24), transparent 64%);
-        }
+            .visual-card::before {
+                content: "";
+                position: absolute;
+                width: 420px;
+                height: 420px;
+                right: -190px;
+                top: -180px;
+                background: radial-gradient(circle, rgba(255,122,26,0.24), transparent 64%);
+            }
 
         .fake-window {
             position: relative;
@@ -222,9 +300,9 @@
             background: #3b4353;
         }
 
-        .dot.orange {
-            background: var(--orange);
-        }
+            .dot.orange {
+                background: var(--orange);
+            }
 
         .window-content {
             padding: 26px;
@@ -238,35 +316,21 @@
             width: 92%;
             height: 118px;
             border-radius: 999px;
-            background:
-                radial-gradient(circle at 20% 50%, rgba(255,255,255,0.95), transparent 7%),
-                linear-gradient(90deg, transparent 0%, rgba(255,122,26,0.06) 12%, rgba(255,122,26,0.95) 42%, rgba(255,220,154,0.98) 55%, rgba(114,242,255,0.20) 72%, transparent 100%);
+            background: radial-gradient(circle at 20% 50%, rgba(255,255,255,0.95), transparent 7%), linear-gradient(90deg, transparent 0%, rgba(255,122,26,0.06) 12%, rgba(255,122,26,0.95) 42%, rgba(255,220,154,0.98) 55%, rgba(114,242,255,0.20) 72%, transparent 100%);
             filter: blur(0.2px);
             transform: rotate(-17deg);
-            box-shadow:
-                0 0 34px rgba(255,122,26,0.32),
-                0 0 80px rgba(255,122,26,0.18);
+            box-shadow: 0 0 34px rgba(255,122,26,0.32), 0 0 80px rgba(255,122,26,0.18);
             opacity: 0.94;
         }
 
-        .slash.second {
-            position: absolute;
-            width: 68%;
-            height: 70px;
-            transform: rotate(20deg) translateY(62px);
-            opacity: 0.38;
-            filter: blur(4px);
-        }
-
-        section {
-            padding: 82px 0;
-            border-bottom: 1px solid var(--line);
-        }
-
-        .section-head {
-            max-width: 720px;
-            margin-bottom: 34px;
-        }
+            .slash.second {
+                position: absolute;
+                width: 68%;
+                height: 70px;
+                transform: rotate(20deg) translateY(62px);
+                opacity: 0.38;
+                filter: blur(4px);
+            }
 
         .grid {
             display: grid;
@@ -274,19 +338,27 @@
             gap: 18px;
         }
 
+        .two-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+        }
+
         .card {
-            background:
-                linear-gradient(180deg, rgba(255,255,255,0.045), rgba(255,255,255,0.015)),
-                var(--panel);
+            background: linear-gradient(180deg, rgba(255,255,255,0.045), rgba(255,255,255,0.015)), var(--panel);
             border: 1px solid var(--line);
             border-radius: 20px;
             padding: 24px;
         }
 
-        .card p {
-            font-size: 16px;
-            margin: 0;
-        }
+            .card.highlight {
+                background: linear-gradient(135deg, rgba(255,122,26,0.14), rgba(114,242,255,0.06)), var(--panel);
+            }
+
+            .card p {
+                font-size: 16px;
+                margin: 0;
+            }
 
         .tag {
             display: inline-flex;
@@ -299,20 +371,6 @@
             letter-spacing: 0.06em;
             text-transform: uppercase;
             margin-bottom: 16px;
-        }
-
-        .about-layout {
-            display: grid;
-            grid-template-columns: 0.9fr 1.1fr;
-            gap: 28px;
-            align-items: start;
-        }
-
-        .profile-card {
-            background: var(--panel-soft);
-            border: 1px solid var(--line);
-            border-radius: 22px;
-            padding: 26px;
         }
 
         .skill-list {
@@ -332,12 +390,11 @@
         }
 
         .contact-box {
-            background:
-                linear-gradient(135deg, rgba(255,122,26,0.18), rgba(114,242,255,0.08)),
-                var(--panel);
+            background: linear-gradient(135deg, rgba(255,122,26,0.18), rgba(114,242,255,0.08)), var(--panel);
             border: 1px solid var(--line);
             border-radius: 24px;
             padding: 32px;
+            max-width: 760px;
         }
 
         .email {
@@ -353,15 +410,13 @@
             padding: 32px 0 54px;
             color: var(--faint);
             font-size: 14px;
+            border-top: 1px solid var(--line);
         }
 
         @media (max-width: 860px) {
             .hero,
-            .about-layout {
-                grid-template-columns: 1fr;
-            }
-
-            .grid {
+            .grid,
+            .two-grid {
                 grid-template-columns: 1fr;
             }
 
@@ -371,177 +426,218 @@
                 flex-direction: column;
             }
 
-            .nav-links {
-                flex-wrap: wrap;
+            .page-header {
+                padding-top: 48px;
             }
 
-            section {
-                padding: 58px 0;
+            .stage {
+                min-height: auto;
             }
+        }
+
+        .contact-links {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 10px;
         }
     </style>
 </head>
+
 <body>
-    <div class="page">
+    <div class="page-shell">
         <header class="nav">
-            <div class="brand">
-                <div class="brand-mark" aria-hidden="true"></div>
-                <div>Evernull Tools</div>
+            <div class="brand" data-page="home">
+                <img class="brand-mark" src="assets/evernull-logo.png" alt="Evernull Tools logo">
+                <div class="brand-wordmark">Evernull Tools</div>
             </div>
 
             <nav class="nav-links">
-                <a href="#slashforge">SlashForge</a>
-                <a href="#features">Features</a>
-                <a href="#about">About</a>
-                <a href="#contact">Contact</a>
+                <button class="nav-button active" data-page="home">Home</button>
+                <button class="nav-button" data-page="slashforge">SlashForge</button>
+                <button class="nav-button" data-page="about">About</button>
+                <button class="nav-button" data-page="contact">Contact</button>
             </nav>
         </header>
 
-        <main>
-            <section class="hero">
-                <div class="hero-copy">
-                    <div class="eyebrow">Unity Technical Art Tools</div>
-                    <h1>Tools for better combat visuals.</h1>
-                    <p>
-                        Evernull Tools creates practical, artist-friendly Unity tools for developers who want better visual effects workflows without building everything from scratch.
-                    </p>
-                    <p>
-                        Our focus is simple: technical art tools that feel less like engineering and more like art direction.
-                    </p>
+        <main class="stage">
+            <article class="view active from-right" data-view="home">
+                <section class="hero hero-single">
+                    <div class="hero-copy">
+                        <div class="eyebrow" >Unity Technical Art Tools</div>
+                        <h1>Tools to make custom VFX more accessible to everyone!</h1>
+                        <p>
+                            Evernull Tools creates practical, artist-friendly(AND non-artist friendly) Unity tools for developers who want better visual effects workflows without building everything from scratch.
+                        </p>
+                        <p>
+                            The focus is simple: technical art tools that feel less like engineering and more like art direction.
+                        </p>
 
-                    <div class="hero-actions">
-                        <a class="button primary" href="#slashforge">View SlashForge</a>
-                        <a class="button" href="#contact">Contact Support</a>
-                    </div>
-                </div>
-
-                <div class="visual-card">
-                    <div class="fake-window">
-                        <div class="window-bar">
-                            <div class="dot orange"></div>
-                            <div class="dot"></div>
-                            <div class="dot"></div>
-                        </div>
-                        <div class="window-content">
-                            <div class="slash"></div>
-                            <div class="slash second"></div>
+                        <div class="hero-actions">
+                            <button class="button primary" data-page="slashforge">View SlashForge</button>
+                            <button class="button" data-page="contact">Contact Support</button>
                         </div>
                     </div>
-                </div>
-            </section>
+                </section>
+            </article>
 
-            <section id="slashforge">
-                <div class="section-head">
+            <article class="view" data-view="slashforge">
+                <section class="page-header">
                     <div class="tag">Current Product</div>
-                    <h2>SlashForge — Combat Trail Creator</h2>
+                    <h1>SlashForge - Combat Trail Creator</h1>
                     <p>
-                        SlashForge is a Unity tool for creating customizable combat trails for weapons, melee attacks, and stylized action effects.
+                        A Unity tool for creating customizable combat trails for weapons, melee attacks, and stylized action effects.
                     </p>
-                </div>
+                </section>
 
-                <div class="card">
+                <section class="two-grid">
+                    <div class="card highlight">
+                        <h3>Fast setup</h3>
+                        <p>
+                            Add the component, assign tip and base transforms, choose a TrailProfile, and start controlling trails through animation events or code. Make trails in minutes!
+                        </p>
+                    </div>
+
+                    <div class="card">
+                        <h3>Editable presets</h3>
+                        <p>
+                            Start from ready-made trail styles, then customize the visuals easily with profile controls, gradients, textures, dissolve settings, and shader options.
+                        </p>
+                    </div>
+
+                    <div class="card">
+                        <h3>Runtime mesh generation</h3>
+                        <p>
+                            SlashForge generates lightweight procedural mesh geometry between weapon points, allowing the trail shape to follow animation motion directly.
+                        </p>
+                    </div>
+
+                    <div class="card">
+                        <h3>Custom shader support</h3>
+                        <p>
+                            Use the built-in TrailProfile workflow or bypass it with a custom material while still receiving useful mesh data like vertex colors and UVs that help you create the effect you want.
+                        </p>
+                    </div>
+                </section>
+            </article>
+
+            <article class="view" data-view="about">
+                <section class="page-header">
+                    <div class="tag">About</div>
                     <p>
-                        It is designed for fast setup, editable presets, animation-event workflows, and deep visual control, making it easier to create sword trails, elemental slashes, energy arcs, stylized swipe kicks, and other combat motion effects directly inside Unity.
+                        Evernull Tools is created by Bartu Sarıpınarlı, a technical artist focused on shaders, VFX, animation tools, and game development workflows.
                     </p>
-                </div>
-            </section>
+                </section>
 
-            <section id="features">
-                <div class="section-head">
-                    <div class="tag">What It Does</div>
-                    <h2>Built for fast setup and deep control.</h2>
-                    <p>
-                        SlashForge is designed to help users start quickly with presets, while still giving technical artists room to customize the result.
-                    </p>
-                </div>
-
-                <div class="grid">
-                    <div class="card">
-                        <h3>Preset-based workflow</h3>
+                <section class="two-grid">
+                    <div class="card highlight">
+                        <h3>What Evernull Tools makes</h3>
                         <p>
-                            Start from ready-made trail styles and edit the look without rebuilding the effect from zero.
+                            Focused Unity tools that save time, expose useful artistic controls, and help developers create better-looking effects with less friction.
                         </p>
                     </div>
 
                     <div class="card">
-                        <h3>Runtime trail mesh</h3>
+                        <h3>Core focus</h3>
                         <p>
-                            Generates lightweight procedural trail geometry between weapon tip and base transforms.
+                            Technical art tools that feel less like engineering and more like art direction.
                         </p>
                     </div>
+                </section>
 
-                    <div class="card">
-                        <h3>Shader-friendly data</h3>
-                        <p>
-                            Passes useful lifetime, fade, stretched UV, and distance-based UV data into the generated mesh.
-                        </p>
+                <section style="margin-top: 28px;">
+                    <div class="skill-list">
+                        <span class="skill">Unity</span>
+                        <span class="skill">Shaders</span>
+                        <span class="skill">VFX</span>
+                        <span class="skill">Technical Art</span>
+                        <span class="skill">Editor Tools</span>
+                        <span class="skill">Animation Workflows</span>
                     </div>
+                </section>
+            </article>
 
-                    <div class="card">
-                        <h3>Animation events</h3>
-                        <p>
-                            Control when trails start, end, and fade out using animation events or code.
-                        </p>
-                    </div>
+            <article class="view" data-view="contact">
+                <section class="page-header">
+                    <div class="tag">Contact</div>
+                    <h1>Support and business inquiries</h1>
+                </section>
 
-                    <div class="card">
-                        <h3>Custom material support</h3>
+                <section>
+                    <div class="contact-box">
+                        <h2>Get in touch</h2>
                         <p>
-                            Use the built-in TrailProfile workflow or bypass it with your own shader/material setup.
-                        </p>
-                    </div>
-
-                    <div class="card">
-                        <h3>Documentation-first</h3>
-                        <p>
-                            Documentation and showcase videos are hosted externally to keep the Unity package lightweight and easy to download.
-                        </p>
-                    </div>
-                </div>
-            </section>
-
-            <section id="about">
-                <div class="about-layout">
-                    <div class="section-head">
-                        <div class="tag">About</div>
-                        <h2>Created by a technical artist.</h2>
-                    </div>
-
-                    <div class="profile-card">
-                        <p>
-                            Evernull Tools is created by Bartu Sarıpınarlı, a technical artist focused on Unity shaders, VFX, animation tools, and game development workflows.
-                        </p>
-                        <p>
-                            The goal is to build focused Unity tools that save time, expose useful artistic controls, and help developers create better-looking effects with less friction.
+                            For support, feedback, documentation questions, or business inquiries:
                         </p>
 
-                        <div class="skill-list">
-                            <span class="skill">Unity</span>
-                            <span class="skill">Shaders</span>
-                            <span class="skill">VFX</span>
-                            <span class="skill">Technical Art</span>
-                            <span class="skill">Editor Tools</span>
-                            <span class="skill">Animation Workflows</span>
+                        <div class="contact-links">
+                            <a class="email" href="mailto:evernulltools@gmail.com">evernulltools@gmail.com</a>
+                            <a class="email" href="https://discord.gg/uc9ED7CFz" target="_blank" rel="noopener noreferrer">Evernull Tools Discord</a>
                         </div>
                     </div>
-                </div>
-            </section>
-
-            <section id="contact">
-                <div class="contact-box">
-                    <div class="tag">Contact</div>
-                    <h2>Support and business inquiries</h2>
-                    <p>
-                        For support, questions, feedback, or business inquiries, contact Evernull Tools by email.
-                    </p>
-                    <a class="email" href="mailto:evernulltools@gmail.com">evernulltools@gmail.com</a>
-                </div>
-            </section>
+                </section>
+            </article>
         </main>
-
-        <footer>
-            © Evernull Tools. Unity is a trademark of Unity Technologies. Evernull Tools is not affiliated with Unity Technologies.
-        </footer>
     </div>
+
+    <script>
+        const pageOrder = ["home", "slashforge", "about", "contact"];
+        let currentPage = "home";
+
+        const views = document.querySelectorAll("[data-view]");
+        const navButtons = document.querySelectorAll(".nav-button");
+        const pageTriggers = document.querySelectorAll("[data-page]");
+
+        function getPageFromHash() {
+        const page = window.location.hash.replace("#", "");
+        return pageOrder.includes(page) ? page : "home";
+        }
+
+        function showPage(nextPage, updateHash = true) {
+        if (!pageOrder.includes(nextPage) || nextPage === currentPage) {
+        return;
+        }
+
+        const currentIndex = pageOrder.indexOf(currentPage);
+        const nextIndex = pageOrder.indexOf(nextPage);
+        const directionClass = nextIndex > currentIndex ? "from-right" : "from-left";
+
+        views.forEach(view => {
+        view.classList.remove("active", "from-right", "from-left");
+
+        if (view.dataset.view === nextPage) {
+        view.classList.add("active", directionClass);
+        }
+        });
+
+        navButtons.forEach(button => {
+        button.classList.toggle("active", button.dataset.page === nextPage);
+        });
+
+        currentPage = nextPage;
+
+        if (updateHash) {
+        history.pushState(null, "", "#" + nextPage);
+        }
+        }
+
+        pageTriggers.forEach(trigger => {
+        trigger.addEventListener("click", () => {
+        const page = trigger.dataset.page;
+        showPage(page);
+        });
+        });
+
+        window.addEventListener("popstate", () => {
+        showPage(getPageFromHash(), false);
+        });
+
+        const initialPage = getPageFromHash();
+
+        if (initialPage !== "home") {
+        currentPage = "home";
+        showPage(initialPage, false);
+        }
+    </script>
 </body>
 </html>
